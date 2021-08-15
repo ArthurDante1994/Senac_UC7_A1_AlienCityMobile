@@ -1,6 +1,7 @@
 ﻿using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
+using UnityEngine.UI;
 
 public class Move2D : MonoBehaviour
 {
@@ -9,26 +10,31 @@ public class Move2D : MonoBehaviour
     private Vector2 posTouch;
     private Vector3 posPlayer;
     public bool touchingPlayer = false;
+    [HideInInspector] public int contador = 0;
+
+    public Text txtcolete;
+    public Text txtpoint;
+    public Text txtfinalend;
+
+    public GameObject gema;
     // Start is called before the first frame update
     void Start()
     {
-        
+        txtcolete.text = "";
     }
 
     // Update is called once per frame
     void Update()
     {
-        //newtestnew();
-        //testfucao();
+        txtpoint.text = contador.ToString();
+        txtfinalend.text = "Pontuação: " + contador;
         MoveTouchNew();
-        //MovementTouch();
-        //MovementTouchClick();
     }
     void testfucao()
     {
         var mousePos = Input.mousePosition;
         mousePos.z = -10f; // select distance = 10 units from the camera
-        Vector3 possicao = mycamera.ScreenToWorldPoint(mousePos);
+        Vector3 possicao = Camera.main.ScreenToWorldPoint(mousePos);
         possicao.z = -4.32f;
         transform.position = possicao;
         Debug.Log(possicao);
@@ -47,6 +53,7 @@ public class Move2D : MonoBehaviour
           if(posTouch.x > posPlayer.x - 1f && posTouch.x < posPlayer.x + 1f && posTouch.y > posPlayer.y - 1.5f && posTouch.y < posPlayer.y + 1.5f)
           {
              touchingPlayer = true;
+             txtcolete.text = "COLETE TODAS AS GEMAS!!!";
           }
            //touchingPlayer = true;
          
@@ -55,6 +62,7 @@ public class Move2D : MonoBehaviour
         if (touch.phase == TouchPhase.Ended)
         {
             touchingPlayer = false;
+            txtcolete.text = "";
         }
 
         if (touchingPlayer)
