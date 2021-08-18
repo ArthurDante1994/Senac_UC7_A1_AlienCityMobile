@@ -8,24 +8,26 @@ public class MyPlayerController : MonoBehaviour
 
     public float MoveSpeed = 2f;
     public float RotationSpeed = 5f;
-    private bool jump = false;
+    public bool jump = false;
 
     private Vector3 gravidade;
+    private Vector3 moviment;
     private CharacterController cc;
     public Transform floorCollidor;
 
     public bool ControlGame = false;
+    public Joystick joystick;
 
     public int maxHealth = 100;
     public int currentHealth;
-    //public HealthBar healthbar;
+    public HealthBar healthbar;
     // Start is called before the first frame update
     void Start()
     {
         anim = GetComponent<Animator>();
         cc = GetComponent<CharacterController>();
         currentHealth = maxHealth;
-        //healthbar.setmaxhealth(maxHealth);
+        healthbar.setmaxhealth(maxHealth);
     }
 
     // Update is called once per frame
@@ -33,23 +35,24 @@ public class MyPlayerController : MonoBehaviour
     {
         if (!ControlGame)
         {
-            MovimentacaoTeclado();
+            // função de controle para teclado
+            moviment = Input.GetAxis("Vertical") * transform.TransformDirection(Vector3.forward) * MoveSpeed;
+            transform.Rotate(new Vector3(0, Input.GetAxis("Horizontal") * RotationSpeed * Time.deltaTime, 0));
+            Movimentacao();
         }
         else
         {
             // função de controle para celular
+            moviment = joystick.Vertical * transform.TransformDirection(Vector3.forward) * MoveSpeed;
+            transform.Rotate(new Vector3(0, joystick.Horizontal * RotationSpeed * Time.deltaTime, 0));
+            Movimentacao();
         }
     }
     // função de movimentação do personagem principal
-    void MovimentacaoTeclado()
+    void Movimentacao()
     {
-        //testdamege();
-        Vector3 moviment = Input.GetAxis("Vertical") * transform.TransformDirection(Vector3.forward) * MoveSpeed;
-
-        transform.Rotate(new Vector3(0, Input.GetAxis("Horizontal") * RotationSpeed * Time.deltaTime, 0));
-
-        //cc.Move(moviment);
-        if (Input.GetKeyDown(KeyCode.Space))
+        testdamege();
+        if (isjumpcontrole())
         {
             jump = true;
             Debug.Log("Esta funcionando o pulor");
@@ -72,8 +75,8 @@ public class MyPlayerController : MonoBehaviour
         moviment += gravidade;
 
         cc.Move(moviment * Time.deltaTime);
-        Debug.Log("esta Correndo " + moviment.x);
-        if (Input.anyKey && Input.GetAxis("Vertical") != 0)
+        //Debug.Log("esta Correndo " + moviment.x);
+        if (Input.anyKey && Input.GetAxis("Vertical") != 0 || joystick.Vertical != 0)
         {
             if (floorCollidor.GetComponent<FloorCollidor>().canJump == true)
             {
@@ -97,6 +100,40 @@ public class MyPlayerController : MonoBehaviour
                 anim.SetTrigger("Pula");
             }
         }
+    }
+    public void TakeDamage(int damage)
+    {
+        // sistema de damo de vida do jogado
+        currentHealth -= damage;
+        healthbar.sethealth(currentHealth);
+    }
+
+    public void HealingLife(int healing)
+    {
+        // sistema de recuperação de vida do jogado
+        currentHealth += healing;
+        if(currentHealth > 100)
+        {
+            currentHealth = 100;
+            healthbar.sethealth(currentHealth);
+        }
+        else
+        {
+            healthbar.sethealth(currentHealth);
+        }
+
+    }
+
+    public void testdamege()
+    {
+        if (Input.GetKeyDown(KeyCode.T))
+        {
+            TakeDamage(20);
+        }
+    }
+    public bool isjumpcontrole()
+    {
+        return Input.GetKeyDown(KeyCode.Space);
     }
 
 }
