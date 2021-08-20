@@ -23,7 +23,7 @@ public class end : MonoBehaviour
         anim2.SetBool("Ativa", true);
         yield return new WaitForSeconds(newtemp);
         Debug.Log("Terminou");
-        SceneManager.LoadScene(0);
+        SceneManager.LoadScene(3);
 
     }
     private void OnTriggerStay(Collider collider)

@@ -17,6 +17,10 @@ public class MyPlayerController : MonoBehaviour
 
     public bool ControlGame = false;
     public Joystick joystick;
+    public Color[] cores;
+    private GameObject mallhadoalien;
+    private bool ativado;
+    public float newtemp = 0.5f;
 
     public int maxHealth = 100;
     public int currentHealth;
@@ -24,6 +28,14 @@ public class MyPlayerController : MonoBehaviour
     // Start is called before the first frame update
     void Start()
     {
+        if(cores.Length == 0)
+        {
+            Debug.LogWarning("Crie uma lista com uma ou mais cores");
+
+            return;
+        }
+
+        mallhadoalien = GameObject.Find("MalhaAlien");
         anim = GetComponent<Animator>();
         cc = GetComponent<CharacterController>();
         currentHealth = maxHealth;
@@ -101,10 +113,26 @@ public class MyPlayerController : MonoBehaviour
             }
         }
     }
+    public IEnumerator animacaodano()
+    {
+        Color dano = cores[0];
+        Color normal = cores[1];
+        if (!ativado)
+        {
+            ativado = true;
+            mallhadoalien.GetComponent<Renderer>().material.color = dano;
+            yield return new WaitForSeconds(newtemp);
+            mallhadoalien.GetComponent<Renderer>().material.color = normal;
+            yield return new WaitForSeconds(newtemp);
+            ativado = false;
+        }
+    }
     public void TakeDamage(int damage)
     {
         // sistema de damo de vida do jogado
         currentHealth -= damage;
+        Handheld.Vibrate();
+        StartCoroutine(animacaodano());
         healthbar.sethealth(currentHealth);
     }
 

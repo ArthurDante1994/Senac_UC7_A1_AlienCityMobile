@@ -12,9 +12,19 @@ public class Menu : MonoBehaviour
         SceneManager.LoadScene(2);
         PlayerPrefs.SetInt("MyLife", Vidas);
     }
+    public void playgamesegundo()
+    {
+        Time.timeScale = 1f;
+        SceneManager.LoadScene(1);
+    }
     public void exitgame()
     {
         Application.Quit();
         Debug.Log("Você saiu do jogo!!!");
+    }
+    public void Menuprincipal()
+    {
+        Time.timeScale = 1f;
+        SceneManager.LoadScene(0);
     }
 }

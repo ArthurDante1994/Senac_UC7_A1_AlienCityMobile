@@ -57,8 +57,9 @@ public class HealthBar : MonoBehaviour
         switch (quantidadevidas)
       {
           case 0:
+                Handheld.Vibrate();
                 minhasvidas[0].SetActive(false);
-                SceneManager.LoadScene(0);
+                SceneManager.LoadScene(4);
             break;
           case 1:
                 minhasvidas[1].SetActive(false);
