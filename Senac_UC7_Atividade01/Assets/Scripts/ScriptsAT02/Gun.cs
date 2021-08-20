@@ -15,9 +15,15 @@ public class Gun : MonoBehaviour
     // Update is called once per frame
     void Update()
     {
+        /*
         if (Input.GetButtonDown("Fire1"))
         {
             Instantiate(bulletprefab, bulletpoint.position, bulletpoint.rotation);
-        }
+        }*/
     }
+    public void FireGun()
+    {
+        Instantiate(bulletprefab, bulletpoint.position, bulletpoint.rotation);
+    }
+
 }
