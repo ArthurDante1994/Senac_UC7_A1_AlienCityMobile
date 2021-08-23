@@ -30,6 +30,8 @@ public class HUDtime : MonoBehaviour
     }
     public void MenuPrincipal()
     {
+        Time.timeScale = 1f;
         SceneManager.LoadScene(0);
+
     }
 }

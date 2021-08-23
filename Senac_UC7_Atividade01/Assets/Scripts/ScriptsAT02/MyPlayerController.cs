@@ -22,6 +22,9 @@ public class MyPlayerController : MonoBehaviour
     private bool ativado;
     public float newtemp = 0.5f;
 
+    public AudioClip[] listaudios;
+    private GameObject sonsgame;
+
     public int maxHealth = 100;
     public int currentHealth;
     public HealthBar healthbar;
@@ -36,6 +39,7 @@ public class MyPlayerController : MonoBehaviour
         }
 
         mallhadoalien = GameObject.Find("MalhaAlien");
+        sonsgame = GameObject.Find("AudioControlle");
         anim = GetComponent<Animator>();
         cc = GetComponent<CharacterController>();
         currentHealth = maxHealth;
@@ -81,6 +85,7 @@ public class MyPlayerController : MonoBehaviour
                 //anim.SetTrigger("Pula");
                 floorCollidor.GetComponent<FloorCollidor>().canJump = false;
                 gravidade.y = 10f;
+                sonsgame.GetComponent<audiocontrolle>().ToqueSFX(listaudios[1]);
                 jump = false;
             }
         }
@@ -130,6 +135,7 @@ public class MyPlayerController : MonoBehaviour
     public void TakeDamage(int damage)
     {
         // sistema de damo de vida do jogado
+        sonsgame.GetComponent<audiocontrolle>().ToqueSFX(listaudios[0]);
         currentHealth -= damage;
         Handheld.Vibrate();
         StartCoroutine(animacaodano());

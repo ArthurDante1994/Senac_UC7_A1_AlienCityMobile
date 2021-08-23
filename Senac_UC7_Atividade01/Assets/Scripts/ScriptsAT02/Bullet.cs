@@ -19,6 +19,7 @@ public class Bullet : MonoBehaviour
     {
         Destroy(gameObject, 2f);
     }
+    /*
     private void OnTriggerEnter(Collider collider)
     {
         if (collider.gameObject.CompareTag("Quebravel"))
@@ -27,5 +28,5 @@ public class Bullet : MonoBehaviour
             Debug.Log("acertou o inimigo!!!");
             collider.GetComponent<DestryObject>().dano(damege);
         }
-    }
+    }*/
 }
